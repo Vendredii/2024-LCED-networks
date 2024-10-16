@@ -83,4 +83,14 @@ summary(model)
 model2 <- lmerTest::lmer(BareCov ~ Type + (1 | Point), data = AllData)
 summary(model2)
 # test if the species community composition is different with a permanova
+AllData1 <- AllData |> 
+  group_by(Type, Group_ID,PlantSpecies_ID) |> 
+  summarize(Count = n(), .groups = 'drop') |> 
+  pivot_wider(names_from = PlantSpecies_ID, values_from = Count) |> 
+  mutate(across(everything(), ~ replace_na(., 0)))
 
+metadata <- AllData1$Type
+library("vegan")
+dist_matrix <- vegdist(AllData1[,3:9], method = "bray")  
+result <- adonis2(dist_matrix ~ metadata)
+print(result)
