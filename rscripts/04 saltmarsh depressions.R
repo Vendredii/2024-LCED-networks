@@ -1,5 +1,7 @@
 #### analysis of the saltmarsh data we collected on monday with the LCED course
 
+# Yuheng Chen for LCED course
+
 # clear everything in the R environment
 rm(list = ls())
 renv::restore()  # restore the library
