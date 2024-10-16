@@ -88,9 +88,6 @@ AllData1 <- AllData |>
   summarize(Count = n(), .groups = 'drop') |> 
   pivot_wider(names_from = PlantSpecies_ID, values_from = Count) |> 
   mutate(across(everything(), ~ replace_na(., 0)))
-
-metadata <- AllData1$Type
-library("vegan")
-dist_matrix <- vegdist(AllData1[,3:9], method = "bray")  
-result <- adonis2(dist_matrix ~ metadata)
+dist_matrix <- vegan::vegdist(AllData1[,3:9], method = "bray")  
+result <- vegan::adonis2(dist_matrix ~ AllData1$Type)
 print(result)
